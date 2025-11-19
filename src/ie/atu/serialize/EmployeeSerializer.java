@@ -93,22 +93,45 @@ public class EmployeeSerializer {
 		 Object[] message = {
 		 "Input Employee Number",txtNumber,
 		 };
-		 JDialog dialog = new JDialog();
-		 dialog.setAlwaysOnTop(true);
-		 int option = JOptionPane.showConfirmDialog(dialog, message,
-		 "ENTER EMPLOYEE DETAILS", JOptionPane.OK_CANCEL_OPTION);
-		 if (option == JOptionPane.OK_OPTION){
-			 int emNum = Integer.parseInt(txtNumber.getText());
-			 for(Employee e: employees)
+		 boolean correctInput = false;
+		 do
 			 {
-				 if(e.getNumber()==emNum)
-				 {
-					 System.out.println(e.toString());
-					 return e;
+			 	 JDialog dialog = new JDialog();
+				 dialog.setAlwaysOnTop(true);
+				 int option = JOptionPane.showConfirmDialog(dialog, message,
+				 "ENTER EMPLOYEE NUMBER", JOptionPane.OK_CANCEL_OPTION);
+				 if (option == JOptionPane.OK_OPTION){
+					 try {
+						 int emNum = Integer.parseInt(txtNumber.getText());
+						 correctInput = true;
+						 for(Employee e: employees)
+						 {
+							 if(e.getNumber()==emNum)
+							 {
+								 System.out.println(e.toString());
+							     JOptionPane.showMessageDialog(null, e.toString(), "Employee Found", JOptionPane.INFORMATION_MESSAGE);	
+								 return e;
+							 }
+
+						 }
+					 }
+					catch(NumberFormatException e)
+					{
+					      JOptionPane.showMessageDialog(null, "Invalid Interger Inputted.", "Enter Employee Number", JOptionPane.INFORMATION_MESSAGE);	
+					}
+						
+				     JOptionPane.showMessageDialog(null, "No Employee Found", "No Employee Found", JOptionPane.INFORMATION_MESSAGE);	
+				     return null;
+						
+					 
+					 
 				 }
-			 }
-		 }
-      return null;		
+				 else
+				 {
+					 correctInput = true;
+					 return null;
+				 }
+			 }while(!correctInput);
    }
 	
    ///////////////////////////////////////////////////////////////////
